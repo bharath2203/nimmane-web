@@ -1,0 +1,10 @@
+const IDs = {
+  MAIN_GREETING: 1,
+  MAIN_OPTIONS: 2,
+  BUY_GREETING: 3,
+  BUY_OPTIONS: 4,
+  SELL_GREETING: 5,
+  SELL_OPTIONS: 6
+};
+
+export default IDs;

@@ -1,0 +1,26 @@
+.login-container {
+    background-image: url("../assets/images/background.jpg");
+    background-position: center;
+    height: 100vh;
+}
+
+.card {
+    width: 40%;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+
+/* 
+
+After the phase 1, that consisted of Android implementation, We are moving forward with the 
+web app for the same with unique source of data that is firebase. One database different platforms.
+We have beed using react js for implementation.
+
+Completed modules as of now:
+
+Firebase authentication
+Firestore Collection 
+Upload Form and handling.
+
+*/
