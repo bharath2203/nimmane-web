@@ -33,29 +33,35 @@ class MyNavBar extends Component {
             <NavLink to="/sales">Sales</NavLink>
           </li>
         </ul>
-        <nav>
-          <div class="nav-wrapper">
-            <a href="/" class="brand-logo">
-              NIMMANE
-            </a>
-            <ul class="right hide-on-med-and-down">
-              <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/new">Upload</NavLink>
-              </li>
-              <li>
-                <a class="dropdown-trigger" href="#!" data-target="navDropDown">
-                  Navigate<i class="material-icons right">arrow_drop_down</i>
-                </a>
-              </li>
-              <li>
-                <a href="/">Logout</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <div className="navbar-fixed">
+          <nav>
+            <div class="nav-wrapper">
+              <a href="/" class="brand-logo">
+                NIMMANE
+              </a>
+              <ul class="right hide-on-med-and-down">
+                <li>
+                  <NavLink to="/">Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/new">Upload</NavLink>
+                </li>
+                <li>
+                  <a
+                    class="dropdown-trigger"
+                    href="#!"
+                    data-target="navDropDown"
+                  >
+                    Navigate<i class="material-icons right">arrow_drop_down</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="/">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
       </React.Fragment>
     );
   }

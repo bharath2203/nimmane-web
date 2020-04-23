@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
 import MyNavBar from "./Layouts/MyNavBar";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import SignIn from "./Auth/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PropertyUploadForm from "./Forms/PropertyUploadForm";

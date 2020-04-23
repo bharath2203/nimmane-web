@@ -8,6 +8,7 @@ import Spinner from "react-spinner-material";
 import axios from "axios";
 import M from "materialize-css";
 import options from "materialize-css";
+import ChipInput from "material-ui-chip-input";
 
 const useStyles = (theme) => ({
   root: {
@@ -49,6 +50,7 @@ class PropertyList extends Component {
     super(props);
     this.state = {
       properties: null,
+      places: [],
     };
   }
 
@@ -85,6 +87,18 @@ class PropertyList extends Component {
     }
   }
 
+  handleAddChip = (chip) => {
+    const places = [...this.state.places, chip];
+    this.setState(places);
+  };
+
+  handleDeleteChip = (chip, index) => {
+    const places = this.state.filter((item) => {
+      return item !== chip;
+    });
+    this.setState(places);
+  };
+
   render() {
     const { classes } = this.props;
     if (this.state.properties === null) {
@@ -95,39 +109,29 @@ class PropertyList extends Component {
       );
     } else {
       return (
-        <div className={classes.root}>
-          <div class="container">
-            <div id="modal1" class="modal">
-              <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
-              </div>
-              <div class="modal-footer">
-                <a
-                  href="#!"
-                  class="modal-close waves-effect waves-green btn-flat"
-                >
-                  Agree
-                </a>
-              </div>
-            </div>
-            <button data-target="modal1" class="btn modal-trigger">
-              Modal
-            </button>
+        <React.Fragment>
+          <div className="card root">
+            <ChipInput
+              value={this.places}
+              onAdd={(chip) => this.handleAddChip(chip)}
+              onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
+            />
           </div>
-          <GridList cellHeight="auto" spacing={6} cols={1}>
-            {this.state.properties.map((property, index) => {
-              return (
-                <GridListTile>
-                  <PropertyDetail
-                    property={property}
-                    key={property.advance}
-                  ></PropertyDetail>
-                </GridListTile>
-              );
-            })}
-          </GridList>
-        </div>
+          <div className={classes.root}>
+            <GridList cellHeight="auto" spacing={6} cols={1}>
+              {this.state.properties.map((property, index) => {
+                return (
+                  <GridListTile>
+                    <PropertyDetail
+                      property={property}
+                      key={property.advance}
+                    ></PropertyDetail>
+                  </GridListTile>
+                );
+              })}
+            </GridList>
+          </div>
+        </React.Fragment>
       );
     }
   }

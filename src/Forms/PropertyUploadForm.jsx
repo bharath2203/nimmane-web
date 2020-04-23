@@ -16,6 +16,9 @@ import SaleForm from "./SaleForm";
 import RentForm from "./RentForm";
 import LeaseForm from "./LeaseForm";
 import "./form.css";
+import LocationPicker from "react-location-picker";
+import { geolocated } from "react-geolocated";
+import M from "materialize-css";
 
 const useStyles = (theme) => ({
   root: {
@@ -60,9 +63,18 @@ const leasePriceFormat = {
 const salePriceFormat = {
   price: 0,
 };
+let defaultPosition = {
+  lat: 13.0033,
+  lng: 76.1004,
+};
 
 class PropertyUploadForm extends Component {
   state = {
+    address: "Kala Pattar Ascent Trail, Khumjung 56000, Nepal",
+    position: {
+      lat: 0,
+      lng: 0,
+    },
     priceDetail: null,
     city: "",
     district: "",
@@ -77,6 +89,11 @@ class PropertyUploadForm extends Component {
       property_age: "",
       status: "",
     },
+  };
+
+  handleLocationChange = ({ position, address, places }) => {
+    // Set new location
+    this.setState({ position, address });
   };
 
   changePriceDetail = (type) => {
@@ -94,6 +111,15 @@ class PropertyUploadForm extends Component {
         break;
     }
   };
+
+  componentDidMount() {
+    M.AutoInit();
+    navigator.geolocation.getCurrentPosition(function(position) {
+      defaultPosition.lat = position.coords.latitude;
+      defaultPosition.lng = position.coords.longitude;
+      console.log(position);
+    });
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -145,21 +171,21 @@ class PropertyUploadForm extends Component {
 
   getTypeForm = () => {
     switch (this.state.type) {
-      case 0:
+      case "0":
         return (
           <RentForm
             changeHandler={this.handleChangePriceDetail}
             priceDetail={this.state.priceDetail}
           />
         );
-      case 1:
+      case "1":
         return (
           <LeaseForm
             changeHandler={this.handleChangePriceDetail}
             priceDetail={this.state.priceDetail}
           />
         );
-      case 2:
+      case "2":
         return (
           <SaleForm
             changeHandler={this.handleChangePriceDetail}
@@ -176,19 +202,28 @@ class PropertyUploadForm extends Component {
     return (
       <div>
         <form>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="type-select">Select type of Property</InputLabel>
-            <Select
-              id="type-select"
-              name="type"
-              value={this.state.type}
-              onChange={this.handleChange}
-            >
-              <MenuItem value={0}>Rent</MenuItem>
-              <MenuItem value={1}>Lease</MenuItem>
-              <MenuItem value={2}>Sale</MenuItem>
-            </Select>
-          </FormControl>
+          <div className="card root">
+            <div className="card-title">Property Upload Form</div>
+            <div className="card-content">
+              <div className="row">
+                <div class="input-field col offset-s4 s4">
+                  <select
+                    name="type"
+                    value={this.state.type}
+                    onChange={this.handleChange}
+                  >
+                    <option value="" selected disabled>
+                      Select one option
+                    </option>
+                    <option value={0}>Rent</option>
+                    <option value={1}>Lease</option>
+                    <option value={2}>Sale</option>
+                  </select>
+                  <label>Select type of Property</label>
+                </div>
+              </div>
+            </div>
+          </div>
           {this.getTypeForm()}
           <div className="card root">
             <div className="card-title">Enter Place Details</div>
@@ -231,29 +266,40 @@ class PropertyUploadForm extends Component {
                   </span>
                 </div>
               </div>
+              <div className="row">
+                <LocationPicker
+                  containerElement={<div style={{ height: "100%" }} />}
+                  mapElement={<div style={{ height: "400px" }} />}
+                  defaultPosition={defaultPosition}
+                  onChange={this.handleLocationChange}
+                />
+              </div>
             </div>
           </div>
           <PropertyDetailForm
             changed={this.handleChangePropertyDetail}
             propertyDetail={this.state.propertyDetail}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
+          <button
+            class="waves-effect waves-light btn-large"
             type="submit"
             onClick={(e) => {
               this.uploadProperty(e);
             }}
-            className={classes.button}
-            startIcon={<SaveIcon />}
           >
-            Save
-          </Button>
+            Upload
+          </button>
         </form>
       </div>
     );
   }
 }
 
-export default withStyles(useStyles, { withTheme: true })(PropertyUploadForm);
+export default withStyles(useStyles, { withTheme: true })(
+  geolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+  })(PropertyUploadForm)
+);
