@@ -93,6 +93,20 @@ const PropertyDetailForm = (props) => {
               <label for="no_of_storerooms">Store Rooms</label>
               <span className="helper-text">Enter No of Store Rooms</span>
             </div>
+            <div className="col s12 m4 input-field">
+              <input
+                id="area"
+                name="area"
+                type="number"
+                className="validate"
+                onChange={props.changed}
+                required
+              ></input>
+              <label for="area">Property Area in sq. ft</label>
+              <span className="helper-text">
+                Enter total measurement of the area
+              </span>
+            </div>
           </div>
           <div className="row">
             <Grid container>

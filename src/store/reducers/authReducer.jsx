@@ -6,7 +6,10 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   VERIFY_REQUEST,
-  VERIFY_SUCCESS
+  VERIFY_SUCCESS,
+  SIGNUP_FAILURE,
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
 } from "../actions/firebaseAuth";
 
 const initState = {
@@ -16,7 +19,9 @@ const initState = {
   loginError: false,
   logoutError: false,
   isAuthenticated: false,
-  user: {}
+  isSigningIn: false,
+  signupError: false,
+  user: {},
 };
 
 const authReducer = (state = initState, action) => {
@@ -25,51 +30,71 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isLoggingIn: true,
-        loginError: false
+        loginError: false,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isLoggingIn: false,
         isAuthenticated: true,
-        user: action.user
+        user: action.user,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         isLoggingIn: false,
         isAuthenticated: false,
-        loginError: true
+        loginError: true,
+      };
+    case SIGNUP_REQUEST:
+      return {
+        ...state,
+        isSigningIn: true,
+        signupError: false,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isSigningIn: false,
+        isAuthenticated: true,
+        user: action.user,
+      };
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        isSigningIn: false,
+        isAuthenticated: false,
+        signupError: true,
       };
     case LOGOUT_REQUEST:
       return {
         ...state,
         isLoggingOut: true,
-        logoutError: false
+        logoutError: false,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
         isLoggingOut: false,
         isAuthenticated: false,
-        user: {}
+        user: {},
       };
     case LOGOUT_FAILURE:
       return {
         ...state,
         isLoggingOut: false,
-        logoutError: true
+        logoutError: true,
       };
     case VERIFY_REQUEST:
       return {
         ...state,
         isVerifying: true,
-        verifyingError: false
+        verifyingError: false,
       };
     case VERIFY_SUCCESS:
       return {
         ...state,
-        isVerifying: false
+        isVerifying: false,
       };
     default:
       return state;

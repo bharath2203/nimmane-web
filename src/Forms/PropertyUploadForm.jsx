@@ -78,8 +78,9 @@ class PropertyUploadForm extends Component {
     priceDetail: null,
     city: "",
     district: "",
-    type: null,
+    type: "0",
     propertyDetail: {
+      area: "",
       no_of_bedrooms: 0,
       no_of_bathrooms: 0,
       no_of_storerooms: 0,
@@ -159,7 +160,6 @@ class PropertyUploadForm extends Component {
       .catch((error) => {
         console.log(error);
       });
-    console.log("I am here");
   };
 
   getType = () => {

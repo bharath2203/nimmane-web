@@ -4,6 +4,10 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
+export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
@@ -29,6 +33,27 @@ const loginError = () => {
         type: LOGIN_FAILURE,
     };
 };
+
+
+const requestSignup = () => {
+    return {
+        type: SIGNUP_REQUEST,
+    };
+};
+
+const receiveSignup = (user) => {
+    return {
+        type: SIGNUP_SUCCESS,
+        user,
+    };
+};
+
+const signupError = () => {
+    return {
+        type: SIGNUP_FAILURE,
+    };
+};
+
 
 const requestLogout = () => {
     return {
@@ -59,6 +84,19 @@ const verifySuccess = () => {
         type: VERIFY_SUCCESS,
     };
 };
+
+export const signupUser = (email, password) => (dispatch) => {
+    dispatch(requestSignup());
+    mFirebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+            dispatch(receiveSignup(user));
+        })
+        .catch((error) => {
+            dispatch(signupError());
+        })
+}
 
 export const loginUser = (email, password) => (dispatch) => {
     dispatch(requestLogin());

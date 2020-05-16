@@ -4,6 +4,7 @@ import "materialize-css/dist/css/materialize.min.css";
 import MyNavBar from "./Layouts/MyNavBar";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import SignIn from "./Auth/SignIn";
+import SignUp from "./Auth/SignUp/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PropertyUploadForm from "./Forms/PropertyUploadForm";
 import PropertyList from "../src/Property/PropertyList";
@@ -53,6 +54,7 @@ function App(props) {
               isVerifying={isVerifying}
             ></ProtectedRoute>
             <Route path="/login" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
           </Switch>
           <NimmaneChatBot></NimmaneChatBot>
         </main>

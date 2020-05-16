@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { loginUser } from "../store/actions/firebaseAuth";
+import { signupUser } from "../../store/actions/firebaseAuth";
 import { withStyles } from "@material-ui/styles";
 
 import Avatar from "@material-ui/core/Avatar";
@@ -39,7 +39,7 @@ const styles = () => ({
   },
 });
 
-class Login extends Component {
+class SignUp extends Component {
   state = { email: "", password: "" };
 
   handleEmailChange = ({ target }) => {
@@ -54,11 +54,11 @@ class Login extends Component {
     const { dispatch } = this.props;
     const { email, password } = this.state;
 
-    dispatch(loginUser(email, password));
+    dispatch(signupUser(email, password));
   };
 
   render() {
-    const { classes, loginError, isAuthenticated } = this.props;
+    const { classes, signupError, isAuthenticated } = this.props;
     if (isAuthenticated) {
       return <Redirect to="/" />;
     } else {
@@ -91,7 +91,7 @@ class Login extends Component {
               id="password"
               onChange={this.handlePasswordChange}
             />
-            {loginError && (
+            {signupError && (
               <Typography component="p" className={classes.errorText}>
                 Incorrect email or password.
               </Typography>
@@ -104,7 +104,7 @@ class Login extends Component {
               className={classes.submit}
               onClick={this.handleSubmit}
             >
-              Sign In
+              Sign UP
             </Button>
           </Paper>
         </Container>
@@ -115,10 +115,10 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    isLoggingIn: state.auth.isLoggingIn,
-    loginError: state.auth.loginError,
+    isSigningUpIn: state.auth.isSigningUpIn,
+    signupError: state.auth.signupError,
     isAuthenticated: state.auth.isAuthenticated,
   };
 }
 
-export default withStyles(styles)(connect(mapStateToProps)(Login));
+export default withStyles(styles)(connect(mapStateToProps)(SignUp));

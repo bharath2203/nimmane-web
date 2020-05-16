@@ -3,6 +3,7 @@ import { logoutUser } from "../store/actions/firebaseAuth";
 import M from "materialize-css";
 import { NavLink } from "react-router-dom";
 import { Navbar, Icon, NavItem, Dropdown } from "materialize-css";
+import { connect } from "react-redux";
 
 class MyNavBar extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class MyNavBar extends Component {
     e.preventDefault();
     const { dispatch } = this.props;
     dispatch(logoutUser());
+    console.log("I am here!!!");
   };
 
   componentDidMount() {
@@ -56,7 +58,7 @@ class MyNavBar extends Component {
                   </a>
                 </li>
                 <li>
-                  <a href="/">Logout</a>
+                  <a onClick={this.handleLogout}>logout</a>
                 </li>
               </ul>
             </div>
@@ -67,4 +69,4 @@ class MyNavBar extends Component {
   }
 }
 
-export default MyNavBar;
+export default connect()(MyNavBar);

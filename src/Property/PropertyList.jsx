@@ -111,11 +111,7 @@ class PropertyList extends Component {
       return (
         <React.Fragment>
           <div className="card root">
-            <ChipInput
-              value={this.places}
-              onAdd={(chip) => this.handleAddChip(chip)}
-              onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
-            />
+            <div className="row"></div>
           </div>
           <div className={classes.root}>
             <GridList cellHeight="auto" spacing={6} cols={1}>

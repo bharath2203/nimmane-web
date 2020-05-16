@@ -11,32 +11,33 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
+import { NavLink } from "react-router-dom";
 
 const styles = () => ({
   "@global": {
     body: {
-      backgroundColor: "#fff"
-    }
+      backgroundColor: "#fff",
+    },
   },
   paper: {
     display: "flex",
     padding: 20,
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   avatar: {
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#f50057"
+    backgroundColor: "#f50057",
   },
   form: {
-    marginTop: 1
+    marginTop: 1,
   },
   errorText: {
     color: "#f50057",
     marginBottom: 5,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 class Login extends Component {
@@ -106,6 +107,7 @@ class Login extends Component {
             >
               Sign In
             </Button>
+            <NavLink to="/signup">Sign Up</NavLink>
           </Paper>
         </Container>
       );
@@ -117,7 +119,7 @@ function mapStateToProps(state) {
   return {
     isLoggingIn: state.auth.isLoggingIn,
     loginError: state.auth.loginError,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
   };
 }
 
