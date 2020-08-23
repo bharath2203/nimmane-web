@@ -8,9 +8,7 @@ import SignUp from "./Auth/SignUp/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PropertyUploadForm from "./Forms/PropertyUploadForm";
 import PropertyList from "../src/Property/PropertyList";
-import PropertyDetail from "../src/Property/PropertyDetail";
 import NimmaneChatBot from "./chatbot/NimmaneChatBot";
-import PatientForm from "./work/PatientForm";
 
 import { connect } from "react-redux";
 
@@ -22,6 +20,14 @@ function App(props) {
         {isAuthenticated ? <MyNavBar /> : null}
         <main className="">
           <Switch>
+            <ProtectedRoute
+              exact
+              path="/"
+              component={PropertyList}
+              isAuthenticated={isAuthenticated}
+              isVerifying={isVerifying}
+              type="rents"
+            ></ProtectedRoute>
             <ProtectedRoute
               exact
               path="/rents"

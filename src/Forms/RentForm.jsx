@@ -16,9 +16,25 @@ const useStyles = makeStyles({
   },
 });
 
+let d = {
+  advance: 1,
+  rent: 1,
+};
+
+const handle = (data) => {
+  d[data.target.name] = parseInt(data.target.value);
+  if (d.advance == 0 || d.rent == 0) {
+    alert("Price cannot be zero");
+    return;
+  }
+  if (d.advance < 0 || d.rent < 0) alert("No negative price");
+  if (d.advance < 10 * d.rent) alert("Advance should be 10 time rent");
+};
+
 const RentForm = (props) => {
   const classes = useStyles();
   const { changeHandler } = props;
+
   return (
     <React.Fragment>
       <div className="card root">
@@ -31,7 +47,7 @@ const RentForm = (props) => {
                 name="advance"
                 type="number"
                 className="validate"
-                onChange={props.changed}
+                onChange={handle}
                 required
               ></input>
               <label for="advance">Advance of Property</label>
@@ -43,7 +59,7 @@ const RentForm = (props) => {
                 name="rent"
                 type="number"
                 className="validate"
-                onChange={props.changed}
+                onChange={handle}
                 required
               ></input>
               <label for="rent">Rent of Property</label>

@@ -8,12 +8,13 @@ import {
   ListItemIcon,
   List,
   ListItemText,
-  Button
+  Button,
 } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Icon from "@material-ui/core/icon";
+import home from "../assets/images/home.png";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   root: {
     display: "flex",
     width: "100%",
@@ -21,28 +22,34 @@ const useStyles = theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     paddingTop: "10px",
-    paddingBottom: "10px"
+    paddingBottom: "10px",
   },
   detailGrid: {
     paddingTop: "3px",
-    paddingLeft: "20px"
+    paddingLeft: "20px",
   },
   smallHeadText: {
     fontSize: "15px",
-    fontWeight: "500"
-  }
+    fontWeight: "500",
+  },
+  image: {
+    overflow: "hidden",
+    minWidth: "100%",
+    maxWidth: "100%",
+    padding: "15px",
+  },
 });
 
 const status = [
   "Ready To Move",
   "Will be moved soon",
-  "Takes more than a Month"
+  "Takes more than a Month",
 ];
 const property_age = [
   "New",
   "Less than 3 years",
   "Less than 5 years",
-  "More than 5 years"
+  "More than 5 years",
 ];
 const furnished_status = ["Furnished", "Semi-Furnished", "Not Furnished"];
 const facing = ["North", "East", "South", "West"];
@@ -91,10 +98,20 @@ class PropertyDetail extends Component {
 
   render() {
     const { classes, property } = this.props;
+    console.log(property);
     return (
       <Card className={classes.root}>
         <Grid container>
-          <Grid item md={5} xs={12}></Grid>
+          <Grid item md={5} xs={12}>
+            <img
+              class={classes.image}
+              src={property.url || home}
+              width="400px"
+              height="300px"
+              class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
+              alt="House image"
+            ></img>
+          </Grid>
           <Grid item md={7} xs={12}>
             <Grid container>
               <Grid item md={2}>

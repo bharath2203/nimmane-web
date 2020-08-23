@@ -19,6 +19,8 @@ import "./form.css";
 import LocationPicker from "react-location-picker";
 import { geolocated } from "react-geolocated";
 import M from "materialize-css";
+import "firebase/storage";
+import { storage } from "../config/configFirebase";
 
 const useStyles = (theme) => ({
   root: {
@@ -70,6 +72,9 @@ let defaultPosition = {
 
 class PropertyUploadForm extends Component {
   state = {
+    image: null,
+    url: "",
+    progress: 0,
     address: "Kala Pattar Ascent Trail, Khumjung 56000, Nepal",
     position: {
       lat: 0,
@@ -92,12 +97,27 @@ class PropertyUploadForm extends Component {
     },
   };
 
+  uploadProperty = (e) => {
+    e.preventDefault();
+    const type = this.getType();
+    let URL = `https://nimmane-ca442.firebaseio.com/${type}.json`;
+    axios
+      .post(URL, this.state)
+      .then((response) => {
+        this.props.history.push("/rents");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   handleLocationChange = ({ position, address, places }) => {
     // Set new location
     this.setState({ position, address });
   };
 
   changePriceDetail = (type) => {
+    console.log(type);  
     switch (type) {
       case 0:
         this.setState({ priceDetail: rentPriceFormat });
@@ -130,6 +150,42 @@ class PropertyUploadForm extends Component {
     console.log(this.state);
   };
 
+  handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+      this.setState(() => ({ image }));
+    }
+  };
+
+  handleUpload = () => {
+    const { image } = this.state;
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // progress function ...
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        this.setState({ progress });
+      },
+      (error) => {
+        // Error function ...
+        console.log(error);
+      },
+      () => {
+        // complete function ...
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            this.setState({ url });
+          });
+      }
+    );
+  };
+
   handleChangePropertyDetail = (e) => {
     let propertyDetail = { ...this.state.propertyDetail };
     propertyDetail[e.target.name] = e.target.value;
@@ -146,20 +202,6 @@ class PropertyUploadForm extends Component {
     priceDetail[e.target.name] = e.target.value;
     this.setState({ priceDetail: priceDetail });
     console.log(this.state);
-  };
-
-  uploadProperty = (e) => {
-    e.preventDefault();
-    const type = this.getType();
-    let URL = `https://nimmane-ca442.firebaseio.com/${type}.json`;
-    axios
-      .post(URL, this.state)
-      .then((response) => {
-        this.props.history.push("/rents");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   getType = () => {
@@ -225,6 +267,36 @@ class PropertyUploadForm extends Component {
             </div>
           </div>
           {this.getTypeForm()}
+          <div className="card root">
+            <div className="card-title">Upload Image</div>
+            <div className="card-content">
+              <div className="row">
+                <progress
+                  value={this.state.progress}
+                  max="100"
+                  className="progress"
+                />
+              </div>
+              <br />
+              <br />
+              <br />
+              <div className="file-field input-field">
+                <div className="btn">
+                  <span>File</span>
+                  <input type="file" onChange={this.handleImageChange} />
+                </div>
+                <div className="file-path-wrapper">
+                  <input className="file-path validate" type="text" />
+                </div>
+              </div>
+              <button
+                onClick={this.handleUpload}
+                className="waves-effect waves-light btn"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
           <div className="card root">
             <div className="card-title">Enter Place Details</div>
             <div className="card-content">

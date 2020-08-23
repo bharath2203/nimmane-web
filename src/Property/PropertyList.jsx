@@ -51,6 +51,8 @@ class PropertyList extends Component {
     this.state = {
       properties: null,
       places: [],
+      district: null,
+      amount: null,
     };
   }
 
@@ -99,6 +101,14 @@ class PropertyList extends Component {
     this.setState(places);
   };
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+    this.changePriceDetail(e.target.value);
+    console.log(this.state);
+  };
+
   render() {
     const { classes } = this.props;
     if (this.state.properties === null) {
@@ -110,9 +120,6 @@ class PropertyList extends Component {
     } else {
       return (
         <React.Fragment>
-          <div className="card root">
-            <div className="row"></div>
-          </div>
           <div className={classes.root}>
             <GridList cellHeight="auto" spacing={6} cols={1}>
               {this.state.properties.map((property, index) => {

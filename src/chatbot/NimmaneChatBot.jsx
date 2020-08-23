@@ -7,6 +7,18 @@ const RedirectToNew = (props) => {
   return <Redirect to="/new"></Redirect>;
 };
 
+const RedirectToRents = (props) => {
+  return <Redirect to="/rents"></Redirect>;
+};
+
+const RedirectToLease = (props) => {
+  return <Redirect to="/leases"></Redirect>;
+};
+
+const RedirectToSale = (props) => {
+  return <Redirect to="/sale"></Redirect>;
+};
+
 const NimmaneChatBot = (props) => {
   const config = {
     width: "350px",
@@ -70,19 +82,46 @@ const NimmaneChatBot = (props) => {
         {
           value: "rent",
           label: "RENT",
-          trigger: "buy_filter_greet",
+          trigger: "rent_final_redirect",
         },
         {
           value: "lease",
           label: "LEASE",
-          trigger: "buy_filter_greet",
+          trigger: "lease_final_redirect",
         },
         {
           value: "sale",
           label: "SALE",
-          trigger: "buy_filter_greet",
+          trigger: "sales_final_redirect",
         },
       ],
+    },
+    {
+      id: "rent_final_redirect",
+      message: "I am redirecting you to rents page. Have a nice day!",
+      trigger: "rent_final",
+    },
+    {
+      id: "rent_final",
+      component: <Redirect to="/rents"></Redirect>,
+    },
+    {
+      id: "lease_final_redirect",
+      message: "I am redirecting you to leases page. Have a nice day!",
+      trigger: "lease_final",
+    },
+    {
+      id: "lease_final",
+      component: <Redirect to="/leases"></Redirect>,
+    },
+    {
+      id: "sales_final_redirect",
+      message: "I am redirecting you to sales page. Have a nice day!",
+      trigger: "sales_final",
+    },
+    {
+      id: "sales_final",
+      component: <Redirect to="/sales"></Redirect>,
     },
     {
       id: "buy_filter_greet",
